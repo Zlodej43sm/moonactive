@@ -1,0 +1,33 @@
+{
+  "initialListLength": 10000,
+  "itemsPerStep": 25,
+  "itemsPerPage": 50,
+  "promotionSchema": [
+    {
+      "id": "promotionName",
+      "name": "Promotion name",
+      "type": "text"
+    },
+    {
+      "id": "type",
+      "name": "Type",
+      "type": "select",
+      "options": ["Common", "Basic", "Epic"]
+    },
+    {
+      "id": "startDate",
+      "name": "Start Date",
+      "type": "date"
+    },
+    {
+      "id": "endDate",
+      "name": "End Date",
+      "type": "date"
+    },
+    {
+      "id": "userGroupName",
+      "name": "User Group Name",
+      "type": "text"
+    }
+  ]
+}

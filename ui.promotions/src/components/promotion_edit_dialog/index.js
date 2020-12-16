@@ -1,0 +1,116 @@
+// node modules
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
+
+// material
+import { withStyles } from "@material-ui/core/styles";
+
+// local components
+import CommonDialog from "components/common/dialog";
+import CommonTextField from "components/common/form/text_field";
+import CommonSelectField from "components/common/form/select_field";
+import CommonDateField from "components/common/form/date_field";
+
+// local files
+import { promotionEditApi } from "api";
+import { EDIT_PROMOTION } from "store/types";
+import { field_types } from "components/common/constants";
+import { generateOptionsObject } from "components/common/utils";
+import styles from "./styles";
+
+const PromotionEditDialog = ({ classes, ...props }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { promotion, promotionSchema, toggleOpened } = props;
+  const [fieldsValuesMap, setFieldsValuesMap] = useState(promotion);
+  const onClose = () => {
+    toggleOpened(null);
+  };
+  const onSave = (event) => {
+    const options = generateOptionsObject({
+      body: { ...fieldsValuesMap, id: fieldsValuesMap._id },
+      loadingMsg: "Saving promotion",
+      type: EDIT_PROMOTION,
+      dispatch
+    });
+    const apiPromise = promotionEditApi(options);
+    dispatch(apiPromise);
+    onClose();
+    event.preventDefault();
+  };
+  const onFieldChange = (id, type) => (event) => {
+    const updatedFieldValue =
+      type === field_types.DATE ? event : event.target.value;
+    const newValues = { ...fieldsValuesMap, ...{ [id]: updatedFieldValue } };
+
+    setFieldsValuesMap(newValues);
+  };
+  const generateFieldsComponentsMap = (fieldSchema, i) => {
+    const autoFocus = i === 0;
+    const { id, name, type } = fieldSchema;
+    const uId = `edit-dialog-${name}-${id}`;
+    let FieldComponent = null;
+
+    switch (type) {
+      case field_types.TEXT:
+        FieldComponent = (
+          <CommonTextField
+            {...{
+              fieldSchema,
+              autoFocus,
+              onFieldChange,
+              fieldsValuesMap
+            }}
+            key={uId}
+          />
+        );
+        break;
+      case field_types.SELECT:
+        FieldComponent = (
+          <CommonSelectField
+            {...{
+              fieldSchema,
+              autoFocus,
+              onFieldChange,
+              fieldsValuesMap
+            }}
+            key={uId}
+          />
+        );
+        break;
+      case field_types.DATE:
+        FieldComponent = (
+          <CommonDateField
+            {...{
+              fieldSchema,
+              autoFocus,
+              onFieldChange,
+              fieldsValuesMap
+            }}
+            key={uId}
+          />
+        );
+        break;
+      default:
+        throw new Error(`Field - ${type} not defined`);
+    }
+
+    return FieldComponent;
+  };
+
+  return (
+    <CommonDialog
+      {...{
+        title: t("Edit promotion"),
+        open: true,
+        onClose,
+        onSave
+      }}
+    >
+      {promotionSchema.map(generateFieldsComponentsMap)}
+    </CommonDialog>
+  );
+};
+
+export default withStyles(styles)(PromotionEditDialog);

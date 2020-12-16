@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["react", "jest", "prettier"],
+  "extends": ["plugin:prettier/recommended", "prettier/react"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "React": true,
+    "documents": true,
+    "window": true,
+    "expect": true
+  },
+  "root": true,
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "node": true
+  }
+}
