@@ -22,7 +22,7 @@ Generate promotions schema, store to MongoDB & create JSON `public/promotions.js
 
 ```JSON
 {
-  "listLength": 300 //optional, default 10000
+  "listLength": 300
 }
 ```
 
@@ -32,7 +32,7 @@ Generate status
 
 ```JSON
 {
-    "message": "" // error & success text message
+    "message": "" 
 }
 ```
 
@@ -69,8 +69,7 @@ Promotions collection range
         "startDate": "2020-12-04T21:33:44.710Z",
         "endDate": "2020-12-04T21:33:44.710Z",
         "__v": 0
-    },
-    ...
+    }
 ]
 ```
 
@@ -96,7 +95,7 @@ Cloned promotion model
 
 ```JSON
 {
-    "message": "", // error & success text message
+    "message": "",
     "result": {
         "_id": "5fcaab38bf2e4bc893f33d89",
         "_order": 0,
@@ -122,8 +121,7 @@ Cloned promotion model
 {
     "id": "5fc95aa2967783745e901cc0",
     "promotionName": "Promotion Up 7",
-    "type": "Epic",
-    ...
+    "type": "Epic"
 }
 ```
 
@@ -133,7 +131,7 @@ Updated promotion model
 
 ```JSON
 {
-    "message": "", // error & success text message
+    "message": "",
     "result": {
         "_id": "5fc95aa2967783745e901cc0",
         "_order": 0,
@@ -167,7 +165,7 @@ Deleted promotion model
 
 ```JSON
 {
-    "message": "", // error & success text message
+    "message": "",
     "result": {
         "_id": "5fc95aa2967783745e901cc0",
         "_order": 0,
