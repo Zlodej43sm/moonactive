@@ -1,8 +1,9 @@
-## Available Scripts
+## React app
 
 #### `/ui`
 
-React App
+
+## Available Scripts
 
 #### `.env-cmdrc` 
 
