@@ -80,7 +80,7 @@ Promotions collection range
 
 ### Promotion CRUD
 
-####Promotion clone
+#### Promotion clone
 
 **URL**
 
@@ -114,7 +114,7 @@ Cloned promotion model
 }
 ```
 
-####Promotion update
+#### Promotion update
 
 **URL**
 
@@ -150,7 +150,7 @@ Updated promotion model
 }
 ```
 
-####Promotion delete
+#### Promotion delete
 
 **URL**
 
