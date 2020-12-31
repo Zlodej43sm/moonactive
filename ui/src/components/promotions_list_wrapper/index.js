@@ -38,7 +38,7 @@ import styles from "./styles";
 const PromotionsListWrapper = ({ classes, ...props }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { renderListCount } = props;
+  const { renderListCount, socket } = props;
   const {
     from,
     to,
@@ -169,7 +169,12 @@ const PromotionsListWrapper = ({ classes, ...props }) => {
       </Paper>
       {promotion && (
         <PromotionEditDialog
-          {...{ toggleOpened: setPromotion, promotion, promotionSchema }}
+          {...{
+            toggleOpened: setPromotion,
+            promotion,
+            promotionSchema,
+            socket
+          }}
         />
       )}
     </>

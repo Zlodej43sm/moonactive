@@ -12,6 +12,7 @@ import styles from "./styles";
 const CommonSelectField = ({ classes, ...props }) => {
   const { t } = useTranslation();
   const {
+    disabled,
     fieldSchema,
     autoFocus = false,
     onFieldChange,
@@ -26,6 +27,7 @@ const CommonSelectField = ({ classes, ...props }) => {
       <InputLabel id={labelId}>{t(name)}</InputLabel>
       <Select
         {...{
+          disabled,
           autoFocus,
           required,
           onChange: onFieldChange(id, type),

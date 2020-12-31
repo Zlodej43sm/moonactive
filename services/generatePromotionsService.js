@@ -9,12 +9,20 @@ let i = 0;
 while (i < workerData) {
   const _order = i;
   const promotionName = `Promotion ${i}`;
-  const type = PROMOTION_TYPES[Math.floor(Math.random() * PROMOTION_TYPES.length)];
+  const type =
+    PROMOTION_TYPES[Math.floor(Math.random() * PROMOTION_TYPES.length)];
   const userGroupName = `Group ${Math.floor(Math.random() * workerData)}`;
-  const startDate = Date.now() - (i * MS_IN_DAY);
-  const endDate = Date.now() - (i * MS_IN_DAY * 2);
+  const startDate = Date.now() - i * MS_IN_DAY;
+  const endDate = Date.now() - i * MS_IN_DAY * 2;
 
-  promotionsList.push({ _order, promotionName, type, userGroupName, startDate, endDate });
+  promotionsList.push({
+    _order,
+    promotionName,
+    type,
+    userGroupName,
+    startDate,
+    endDate,
+  });
   i++;
 }
 

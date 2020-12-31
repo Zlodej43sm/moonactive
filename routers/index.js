@@ -5,5 +5,5 @@ const promotionsList = require("./promotionsList");
 module.exports = {
   generate,
   promotion,
-  promotionsList
+  promotionsList,
 };

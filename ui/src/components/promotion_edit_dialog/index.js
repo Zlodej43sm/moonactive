@@ -1,5 +1,5 @@
 // node modules
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 
@@ -17,15 +17,29 @@ import { promotionEditApi } from "api";
 import { EDIT_PROMOTION } from "store/types";
 import { field_types } from "components/common/constants";
 import { generateOptionsObject } from "components/common/utils";
+import {
+  SOCKET_DIALOG_ON_EDIT_FIELD,
+  SOCKET_DIALOG_DISABLE_FIELDS,
+  SOCKET_DIALOG_OPENED,
+  SOCKET_DIALOG_CLOSED
+} from "./constants";
+import { getTimestamp } from "./utils";
 import styles from "./styles";
 
 const PromotionEditDialog = ({ classes, ...props }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { promotion, promotionSchema, toggleOpened } = props;
+  const { socket, promotion, promotionSchema, toggleOpened } = props;
   const [fieldsValuesMap, setFieldsValuesMap] = useState(promotion);
+  const [disabledFieldsList, setDisabledFieldsList] = useState(null);
+  const editPromotionData = {
+    promotionId: fieldsValuesMap._id,
+    openedAt: getTimestamp(),
+    fields: []
+  };
   const onClose = () => {
     toggleOpened(null);
+    socket.emit(SOCKET_DIALOG_CLOSED, { promotionId: promotion._id });
   };
   const onSave = (event) => {
     const options = generateOptionsObject({
@@ -43,7 +57,14 @@ const PromotionEditDialog = ({ classes, ...props }) => {
     const updatedFieldValue =
       type === field_types.DATE ? event : event.target.value;
     const newValues = { ...fieldsValuesMap, ...{ [id]: updatedFieldValue } };
+    const field = {
+      id,
+      changeTimestamp: getTimestamp(),
+      value: updatedFieldValue
+    };
+    const { promotionId } = editPromotionData;
 
+    socket.emit(SOCKET_DIALOG_ON_EDIT_FIELD, { promotionId, field });
     setFieldsValuesMap(newValues);
   };
   const generateFieldsComponentsMap = (fieldSchema, i) => {
@@ -51,12 +72,18 @@ const PromotionEditDialog = ({ classes, ...props }) => {
     const { id, name, type } = fieldSchema;
     const uId = `edit-dialog-${name}-${id}`;
     let FieldComponent = null;
+    const disabled = disabledFieldsList
+      ? disabledFieldsList.some(
+          (disabledField) => disabledField.id === fieldSchema.id
+        )
+      : false;
 
     switch (type) {
       case field_types.TEXT:
         FieldComponent = (
           <CommonTextField
             {...{
+              disabled,
               fieldSchema,
               autoFocus,
               onFieldChange,
@@ -70,6 +97,7 @@ const PromotionEditDialog = ({ classes, ...props }) => {
         FieldComponent = (
           <CommonSelectField
             {...{
+              disabled,
               fieldSchema,
               autoFocus,
               onFieldChange,
@@ -83,6 +111,7 @@ const PromotionEditDialog = ({ classes, ...props }) => {
         FieldComponent = (
           <CommonDateField
             {...{
+              disabled,
               fieldSchema,
               autoFocus,
               onFieldChange,
@@ -98,6 +127,16 @@ const PromotionEditDialog = ({ classes, ...props }) => {
 
     return FieldComponent;
   };
+  useEffect(() => {
+    socket.emit(SOCKET_DIALOG_OPENED, editPromotionData);
+    socket.on(SOCKET_DIALOG_DISABLE_FIELDS, (data) => {
+      const disabledList = data[editPromotionData.promotionId];
+      if (disabledList) {
+        setDisabledFieldsList(disabledList.fields);
+      }
+    });
+    return () => socket.off(SOCKET_DIALOG_DISABLE_FIELDS);
+  }, [socket, editPromotionData]);
 
   return (
     <CommonDialog

@@ -26,7 +26,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.1",
     "mongoose": "^5.10.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "socket.io": "^3.0.4"
   },
   "devDependencies": {
     "env-cmd": "^10.1.0",

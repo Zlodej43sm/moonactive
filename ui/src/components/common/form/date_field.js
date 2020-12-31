@@ -17,6 +17,7 @@ import styles from "./styles";
 const CommonDateField = ({ classes, ...props }) => {
   const { t } = useTranslation();
   const {
+    disabled,
     fieldSchema,
     autoFocus = false,
     onFieldChange,
@@ -33,6 +34,7 @@ const CommonDateField = ({ classes, ...props }) => {
         fullWidth
         margin="normal"
         {...{
+          disabled,
           required,
           autoFocus,
           format: BASE_DATE_FORMAT,

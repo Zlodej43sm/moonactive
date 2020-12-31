@@ -1,5 +1,5 @@
 const promotionsList = require("../controllers/promotionsList");
 
-module.exports = app => {
+module.exports = (app) => {
   app.get("/promotionsList", promotionsList);
 };

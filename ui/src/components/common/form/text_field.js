@@ -12,6 +12,7 @@ import styles from "./styles";
 const CommonTextField = ({ classes, ...props }) => {
   const { t } = useTranslation();
   const {
+    disabled,
     fieldSchema,
     autoFocus = false,
     onFieldChange,
@@ -24,6 +25,7 @@ const CommonTextField = ({ classes, ...props }) => {
     <FormControl margin="normal" required fullWidth>
       <TextField
         {...{
+          disabled,
           required,
           autoFocus,
           onChange: onFieldChange(id, type),

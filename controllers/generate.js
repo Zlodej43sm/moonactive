@@ -5,19 +5,31 @@ const runServiceWorker = require("../utils/serviceWorker");
 
 const { Promotion } = require("../models");
 
-const generate = async(req, res) => {
+const generate = async (req, res) => {
   try {
-    const { body: { listLength = 10000 } } = req;
-    const generatedPromotionsList = await runServiceWorker(commonPath.GENERATE_SERVICE, listLength);
+    const {
+      body: { listLength = 10000 },
+    } = req;
+    const generatedPromotionsList = await runServiceWorker(
+      commonPath.GENERATE_SERVICE,
+      listLength
+    );
 
     await Promotion.deleteMany();
     await Promotion.insertMany(generatedPromotionsList);
-    await fs.writeFile(commonPath.PROMOTIONS_OUTPUT_JSON, JSON.stringify(generatedPromotionsList), "utf8", err => {
-      if (err) {
-        throw err;
+    await fs.writeFile(
+      commonPath.PROMOTIONS_OUTPUT_JSON,
+      JSON.stringify(generatedPromotionsList),
+      "utf8",
+      (err) => {
+        if (err) {
+          throw err;
+        }
       }
+    );
+    res.status(statusCodes.OK).json({
+      message: `Promotions list successfully generated - ${commonPath.PROMOTIONS_OUTPUT_JSON}!`,
     });
-    res.status(statusCodes.OK).json({ message: `Promotions list successfully generated - ${commonPath.PROMOTIONS_OUTPUT_JSON}!` });
   } catch ({ message }) {
     res.status(statusCodes.ERR).json({ message });
   }

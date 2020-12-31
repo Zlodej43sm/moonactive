@@ -2,28 +2,27 @@ const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema({
   _order: {
-    type: Number
+    type: Number,
   },
   promotionName: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   type: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   userGroupName: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   startDate: {
-    type: Date
+    type: Date,
   },
   endDate: {
-    type: Date
-  }
+    type: Date,
+  },
 });
 const Promotion = model("Promotion", userSchema);
 
 module.exports = Promotion;
-

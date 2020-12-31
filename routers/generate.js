@@ -1,5 +1,5 @@
 const generate = require("../controllers/generate");
 
-module.exports = app => {
+module.exports = (app) => {
   app.post("/generate", generate);
 };

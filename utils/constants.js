@@ -2,11 +2,11 @@ const PROMOTION_TYPES = ["Basic", "Common", "Epic"];
 
 const commonPath = {
   GENERATE_SERVICE: "./services/generatePromotionsService.js",
-  PROMOTIONS_OUTPUT_JSON: "./public/promotions.json"
+  PROMOTIONS_OUTPUT_JSON: "./public/promotions.json",
 };
 
 const commonConst = {
-  MS_IN_DAY: 86400000
+  MS_IN_DAY: 86400000,
 };
 
 const statusCodes = {
@@ -15,12 +15,12 @@ const statusCodes = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
-  ERR: 500
+  ERR: 500,
 };
 
 module.exports = {
   PROMOTION_TYPES,
   commonPath,
   commonConst,
-  statusCodes
+  statusCodes,
 };
